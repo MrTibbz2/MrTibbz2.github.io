@@ -1,0 +1,129 @@
+# Media settings — uploaded files & images
+media:
+  - name: images
+    label: Images
+    input: assets/images
+    output: /assets/images
+    categories: [image]
+  - name: docs
+    label: Documents
+    input: assets/files
+    output: /assets/files
+    categories: [document]
+
+# Content types registered with Pages CMS
+content:
+  # Blog posts collection
+  - name: posts
+    label: Posts
+    type: collection
+    path: _posts
+    filename: "{year}-{month}-{day}-{slug}.md"
+    view:
+      fields: [ title, published, date, tags ]
+      primary: title
+      sort: [ date ]
+      default:
+        search: ""
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+
+      - name: date
+        label: Date
+        type: date
+        required: true
+
+      - name: description
+        label: Summary
+        type: text
+
+      - name: featured_image
+        label: Featured Image
+        type: image
+        options:
+          media: images
+
+      - name: tags
+        label: Tags
+        type: string
+        list:
+          min: 0
+          max: 10
+
+      - name: authors
+        label: Authors
+        type: reference
+        options:
+          collection: authors
+          multiple: true
+
+      - name: body
+        label: Content
+        type: rich-text
+        options:
+          media: images
+
+      - name: attachments
+        label: Attachments
+        type: file
+        options:
+          media: docs
+          multiple:
+            max: 5
+
+  # Authors "lookup" table
+  - name: authors
+    label: Authors
+    type: collection
+    path: _data/authors
+    filename: "{slug}.md"
+    fields:
+      - name: name
+        label: Name
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+      - name: avatar
+        label: Avatar
+        type: image
+        options:
+          media: images
+      - name: bio
+        label: Bio
+        type: text
+
+# Reusable components — currently unused but available
+components:
+  seo:
+    label: SEO Settings
+    type: object
+    fields:
+      - name: meta_title
+        label: Meta Title
+        type: string
+      - name: meta_description
+        label: Meta Description
+        type: string
+
+# CMS UI behavior tweaks
+settings:
+  hide: false
+  content:
+    merge: true
